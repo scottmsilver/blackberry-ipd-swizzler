@@ -23,41 +23,43 @@ import java.util.Iterator;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /*
- 
+
  <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd">
-<en-export>
-<note>
-  <title>Amiodarone</title>
-  <content><![CDATA[<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>Test Me<p/>Test Me2<p/></en-note>]]></content>
-  <created>20120226T080000Z</created>
-  <tag>medical</tag></note>
-</en-export>
+ <!DOCTYPE en-export SYSTEM "http://xml.evernote.com/pub/evernote-export2.dtd">
+ <en-export>
+ <note>
+ <title>Amiodarone</title>
+ <content><![CDATA[<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd"><en-note>Test Me<p/>Test Me2<p/></en-note>]]></content>
+ <created>20120226T080000Z</created>
+ <tag>medical</tag></note>
+ </en-export>
 
  */
 /**
- * Helper class to consume a BlackBerry Memo database and output an Evernote import file called enex.
+ * Helper class to consume a BlackBerry Memo database and output an Evernote
+ * import file called enex.
  */
 public class EvernoteExporter {
   Memos memos;
-  
+
   public EvernoteExporter(Memos theMemos) {
     this.memos = theMemos;
   }
 
   public void export(String exportFile) {
     PrintWriter printWriter = new PrintWriter(System.out);
-    
+
     printWriter.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-    printWriter.println("<!DOCTYPE en-export SYSTEM \"http://xml.evernote.com/pub/evernote-export2.dtd\">");
+    printWriter
+        .println("<!DOCTYPE en-export SYSTEM \"http://xml.evernote.com/pub/evernote-export2.dtd\">");
     printWriter.println("<en-export>");
-    
+
     int index = 0;
     for (Iterator<Memo> memoIterator = memos.getAll(); memoIterator.hasNext();) {
       Memo memo = memoIterator.next();
-      printMemo(printWriter, memo, index++);      
+      printMemo(printWriter, memo, index++);
     }
-    
+
     printWriter.println("</en-export>");
 
     printWriter.flush();
@@ -71,37 +73,41 @@ public class EvernoteExporter {
    * @param index
    */
   private void printMemo(PrintWriter printWriter, Memo memo, int index) {
-    printWriter.println("<note>"); 
+    printWriter.println("<note>");
 
     String title = memo.getTitle();
     String content = memo.getContent();
     String[] tags = memo.getTags();
-    
+
     if (title != null) {
-      printWriter.printf("<title>%s</title>\n", StringEscapeUtils.escapeHtml4(title), index); 
+      printWriter.printf("<title>%s</title>\n",
+          StringEscapeUtils.escapeHtml4(title), index);
     }
 
-    printWriter.print("<content><![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\"><en-note>");
-    
+    printWriter
+        .print("<content><![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\"><en-note>");
+
     if (content != null) {
       printContentAsHtml(printWriter, content);
     }
-    
+
     printWriter.println("</en-note>]]></content>");
 
-    if (tags != null ) {
+    if (tags != null) {
       for (int tagIndex = 0; tagIndex < tags.length; tagIndex++) {
-        printWriter.printf("<tag>%s</tag>\n", StringEscapeUtils.escapeHtml4(tags[tagIndex]));
+        printWriter.printf("<tag>%s</tag>\n",
+            StringEscapeUtils.escapeHtml4(tags[tagIndex]));
       }
     }
-    
-    printWriter.println("</note>"); 
+
+    printWriter.println("</note>");
   }
 
   private void printContentAsHtml(PrintWriter printWriter, String content) {
     BufferedReader reader = new BufferedReader(new StringReader(content));
     try {
-      for (String line = reader.readLine(); line != null;  line = reader.readLine()) {
+      for (String line = reader.readLine(); line != null; line = reader
+          .readLine()) {
         printWriter.print(StringEscapeUtils.escapeHtml4(line));
         printWriter.print("<p/>");
       }

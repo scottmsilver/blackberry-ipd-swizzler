@@ -40,7 +40,7 @@ class InteractivePagerBackupParser {
     while (expect.getBytesRead() < new File(fileName).length()) {
       slurpDatabase(pagerBackup, expect);
     }
-    
+
     return pagerBackup;
   }
 
@@ -49,7 +49,8 @@ class InteractivePagerBackupParser {
     for (int databaseNameIndex = 0; databaseNameIndex < databaseCount; databaseNameIndex++) {
       int databaseNameLength = expect.getInt16(false, "databaseNameLength");
 
-      String databaseName = expect.getNullTerminatedString("databaseName", databaseNameLength);
+      String databaseName = expect.getNullTerminatedString("databaseName",
+          databaseNameLength);
       pagerBackup.addDatabase(databaseNameIndex, databaseName);
     }
     assert (pagerBackup.getDatabaseCount() == databaseCount);

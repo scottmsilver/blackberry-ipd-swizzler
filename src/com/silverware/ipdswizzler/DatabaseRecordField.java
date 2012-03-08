@@ -25,7 +25,7 @@ public class DatabaseRecordField {
   private byte type;
   private byte[] data;
   private int length;
- 
+
   public DatabaseRecordField(int fieldLength, byte fieldType, byte[] fieldData) {
     length = fieldLength;
     type = fieldType;
@@ -44,15 +44,16 @@ public class DatabaseRecordField {
   }
 
   String getDataAsNullTerminateString() {
-    BinaryReadHelper helper = new BinaryReadHelper(new ByteArrayInputStream(data));
-    
+    BinaryReadHelper helper = new BinaryReadHelper(new ByteArrayInputStream(
+        data));
+
     try {
       return helper.getNullTerminatedString("fieldValue", length);
     } catch (IOException e) {
       return null;
     }
   }
-  
+
   public byte[] getData() {
     return data;
   }
