@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-package ipdswizzler;
+package com.silverware.ipdswizzler;
 
 public class Utility {
   static final int BYTES_PER_ROW = 64;

@@ -1,4 +1,4 @@
-package ipdswizzler;
+package com.silverware.ipdswizzler;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -35,10 +35,10 @@ public class Database {
     DatabaseRecord databaseRecord = new DatabaseRecord(databaseRecordHandle,
         databaseRecordUniqueId);
 
-    if (records.get(new Integer(databaseRecordHandle)) != null) {
+    if (records.get(databaseRecordHandle) != null) {
       System.out.println("hi");
     }
-    records.put(new Integer(databaseRecordHandle), databaseRecord);
+    records.put(databaseRecordHandle, databaseRecord);
 
     return databaseRecord;
   }
