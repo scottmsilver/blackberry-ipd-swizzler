@@ -1,0 +1,1 @@
+BlackBerry IPD Swizzler is a Java library and application for opening up BlackBerry backup files which have the IPD file extension. The intent is to make it easy to open an IPD file and extract and transform data from it into other formats. I originally developed it to help move Memos to Evernote.
